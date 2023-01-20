@@ -1,0 +1,299 @@
+<%- include("partials/header") -%>
+    <%- include("partials/topnavigation") -%>
+        <%- include("partials/sidenav") -%>
+
+            <div class="cpanelpage-banner">
+                <div class="w3-row">
+                    <div class="w3-col l2 m3">
+                        <h1 class="cpanelpage-banner-heading">CPANEL</h1>
+                        <br>
+                        <br>
+                        <a class="w3-button w3-round-xxlarge w3-hover-light-grey" href="/logout"
+                            role="button">Logout &nbsp;<i class="fas fa-sign-out-alt sn-icon"></i></a>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="w3-col l10 m9 cpanel-forms-cols">
+                        <div class="cpanel-section-card">
+                            <h4><i class="fas fa-users"></i> All Users</h4>
+                            <table class="w3-table w3-striped">
+                                <tr>
+                                    <th><b>User <span class="w3-hide-small">Name</span></b></th>
+                                    <th><b>Email</b></th>
+                                    <th><b>Role</b></th>
+                                </tr>
+                                <% Users.forEach((user)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= user.name %>
+                                        </td>
+                                        <td>
+                                            <%= user.username %>
+                                        </td>
+                                        <td>
+                                            <%= user.role %>
+                                        </td>
+                                        <td>
+                                            <i title="Edit"
+                                                onclick="document.getElementById('<%= user._id %>').style.display = 'block';"
+                                                class="table-icon fas fa-pen-alt w3-text-gray w3-hover-text-black"></i>
+                                        </td>
+                                        <td>
+                                            <i title="Delete User"
+                                                onclick="document.getElementById('<%= user.username %>').style.display = 'block';"
+                                                class="table-icon fas fa-trash w3-text-gray w3-hover-text-red"></i>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Edit User Modal -->
+                                    <div id="<%= user._id %>" class="modal">
+                                        <!-- Modal content -->
+                                        <div class="modal-content">
+                                            <form action="/cpanel" method="post">
+                                                <div class="inputs">
+                                                    <span class="w3-tiny">
+                                                        <%= user._id %>
+                                                    </span>
+                                                    <h4 class="w3-margin-0">Edit User Data</h4>
+                                                    <br>
+                                                    <input class="w3-input w3-hide" type="radio" name="userID"
+                                                        value="<%= user._id %>" checked required>
+                                                    <div class="w3-row">
+                                                        <div class="w3-col l3 m4">
+                                                            <input class="w3-input" type="text" name="name"
+                                                                placeholder="<%= user.name %>" autocomplete="off"
+                                                                required>
+                                                        </div>
+                                                        <div class="w3-col l6 m4">
+                                                            <input class="w3-input" type="email"
+                                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
+                                                                name="username" placeholder="<%= user.username %>"
+                                                                autocomplete="off" required>
+                                                        </div>
+                                                        <div class="w3-col l3 m4">
+                                                            <select class="w3-select" name="role" required>
+                                                                <option value="" class="w3-hide" disabled selected>
+                                                                    Choose Role
+                                                                </option>
+                                                                <option value="admin">Admin</option>
+                                                                <option value="user">User</option>
+                                                                <option value="userTemp">Temporary User</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-btn-container">
+                                                    <button
+                                                        class="w3-button w3-round-xxlarge w3-border w3-border-grey w3-hover-white zoom"
+                                                        type="button"
+                                                        onclick="document.getElementById('<%= user._id %>').style.display = 'none';">
+                                                        CANCEL
+                                                    </button>
+
+                                                    <button type="submit"
+                                                        class="w3-button w3-round-xxlarge w3-black w3-hover-green w3-right zoom"
+                                                        name="btn" value="edituser">SAVE</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div><!-- Edit User Modal -->
+
+                                    <!-- Delete User Modal -->
+                                    <div id="<%= user.username %>" class="modal">
+                                        <!-- Modal content -->
+                                        <div class="modal-content">
+                                            <form action="/cpanel" method="post">
+                                                <div class="inputs">
+                                                    <h4>You are about to delete <span class="w3-text-red">
+                                                            <%= user.name %>
+                                                        </span> as user?
+                                                    </h4>
+                                                    <input class="w3-input w3-hide" type="radio" name="userID"
+                                                        value="<%= user._id %>" checked required>
+                                                </div>
+
+                                                <div class="modal-btn-container">
+                                                    <button
+                                                        class="w3-button w3-round w3-border w3-border-grey w3-hover-white zoom"
+                                                        type="button"
+                                                        onclick="document.getElementById('<%= user.username %>').style.display = 'none';">
+                                                        <span class="w3-hide-small"> NO,</span> DON'T
+                                                    </button>
+
+                                                    <button onclick="this.form.submit();"
+                                                        class="w3-button w3-round w3-red w3-hover-red w3-right zoom"
+                                                        name="btn" value="deleteuser">
+                                                        <span class="w3-hide-small">YES,</span> DELETE <span
+                                                            class="w3-hide-small"> USER</span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div><!-- Delete User Modal -->
+                                <% }); %>
+                            </table>
+                            <br>
+                            <!-- Add User Button -->
+                            <button onclick="document.getElementById('addAUser').style.display = 'block';"
+                                class="w3-button w3-round-xxlarge w3-block w3-border w3-border-black w3-hover-black">
+                                <i class="fas fa-user-plus"></i> Add A User
+                            </button>
+
+                        </div>
+
+                        <br>
+
+                        <div class="cpanel-section-card">
+                            <h4><i class="fas fa-sign"></i> Real Estate Info</h4>
+                        </div>   
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Add User Modal  -->
+            <div id="addAUser" class="modal">
+                <div class="modal-content">
+
+                    <form action="/cpanel" method="post">
+                        <div class="inputs">
+                            <i class="fas fa-times-circle w3-right w3-hover-text-red" style="cursor: pointer;"
+                                onclick="document.getElementById('addAUser').style.display = 'none';"></i>
+                            <h4><i class="fas fa-user-plus"></i> Add A User</h4>
+                            <div class="w3-row">
+                                <div class="w3-col l6 m6">
+                                    <input class="w3-input w3-hover-border-black" type="text" name="name"
+                                        placeholder="Enter a name" autocomplete="off" required>
+                                </div>
+                                <div class="w3-col l6 m6">
+                                    <input class="w3-input w3-hover-border-black" type="email"
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" name="username"
+                                        placeholder="Enter email address" autocomplete="off" required>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="w3-row">
+                                <div class="w3-col l4 m4">
+                                    <select class="w3-select" name="role" required>
+                                        <option value="" class="w3-hide" disabled selected>Choose Role</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
+                                        <option value="userTemp">Temporary User</option>
+                                    </select>
+                                </div>
+                                <div class="w3-col l8 m8">
+                                    <input class="w3-input w3-hover-border-black" type="password" id="userpsw"
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Enter password"
+                                        name="password" autocomplete="off" required>
+
+                                    <div class="w3-animate-opacity" id="message">
+                                        <span> Passwords should contain:&nbsp;</span>
+                                        <span id="letter" class="invalid"><b>lowercase</b> letters,&nbsp;</span>
+                                        <span id="capital" class="invalid"><b>uppercase</b> letters,&nbsp;</span>
+                                        <span id="number" class="invalid">at least a <b>number</b>&nbsp;</span>
+                                        <span id="length" class="invalid"> & minimum <b>8 characters</b></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input class="w3-check" type="checkbox" id="togglepsw">
+                            <span>Show password</span>
+
+                            <script>
+                                // Toggle password visibility 
+
+                                document.getElementById("togglepsw").addEventListener("click", () => {
+                                    toggleVisibility();
+                                })
+
+                                function toggleVisibility() {
+
+                                    var x = document.getElementById("userpsw");
+
+                                    if (x.type === "password") {
+                                        x.type = "text";
+                                    } else {
+                                        x.type = "password";
+                                    }
+
+                                }
+                                // Toggle password visibility 
+
+
+                                var pswInput = document.getElementById("userpsw");
+                                var letter = document.getElementById("letter");
+                                var capital = document.getElementById("capital");
+                                var number = document.getElementById("number");
+                                var length = document.getElementById("length");
+
+
+                                pswInput.onkeyup = function () {
+                                    // Validate lowercase letters
+                                    var lowerCaseLetters = /[a-z]/g;
+                                    if (pswInput.value.match(lowerCaseLetters)) {
+                                        letter.classList.remove("invalid");
+                                        letter.classList.add("valid");
+                                    } else {
+                                        letter.classList.remove("valid");
+                                        letter.classList.add("invalid");
+                                    }
+
+                                    // Validate capital letters
+                                    var upperCaseLetters = /[A-Z]/g;
+                                    if (pswInput.value.match(upperCaseLetters)) {
+                                        capital.classList.remove("invalid");
+                                        capital.classList.add("valid");
+                                    } else {
+                                        capital.classList.remove("valid");
+                                        capital.classList.add("invalid");
+                                    }
+
+                                    // Validate numbers
+                                    var numbers = /[0-9]/g;
+                                    if (pswInput.value.match(numbers)) {
+                                        number.classList.remove("invalid");
+                                        number.classList.add("valid");
+                                    } else {
+                                        number.classList.remove("valid");
+                                        number.classList.add("invalid");
+                                    }
+
+                                    // Validate length
+                                    if (pswInput.value.length >= 8) {
+                                        length.classList.remove("invalid");
+                                        length.classList.add("valid");
+                                    } else {
+                                        length.classList.remove("valid");
+                                        length.classList.add("invalid");
+                                    }
+                                }
+
+                            </script>
+                        </div>
+
+                        <div class="modal-btn-container">
+                            <div class="w3-row">
+                                <div class="w3-col l2 m2 s4">
+                                    <button type="reset"
+                                        class="w3-button w3-round-xxlarge w3-border w3-border-red w3-hover-red">
+                                        Clear
+                                    </button>
+                                </div>
+                                <div class="w3-col l10 m10 s8 w3-center">
+                                    <button onclick="this.form.submit();" name="btn" value="adduser"
+                                        class="w3-button w3-block w3-round-xxlarge w3-border w3-border-black w3-hover-black">
+                                        Add User
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- Add User Modal  -->
+
+
+            <%- include("partials/footer") -%>

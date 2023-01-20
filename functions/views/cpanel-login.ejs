@@ -1,0 +1,60 @@
+<%- include("partials/header"); -%>
+
+    <div class="signin-page-container">
+        <div class="signin-form-card">
+            <span class="w3-small">cPanel</span>
+            <h5 class="w3-margin-0 w3-wide"><b> Login in To Proceed</b></h5>
+            <br>
+            <form action="/cpanel-login" method="post">
+
+                <span class="w3-tiny">Email Address</span>
+                <input class="w3-input w3-hover-border-black" type="email"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" name="username" placeholder="Enter email address"
+                    autocomplete="off" required>
+                <span class="w3-small w3-text-red w3-animate-opacity">
+                    <b>
+                        <%= emailError %>
+                    </b>
+                </span>
+                <br>
+
+                <span class="w3-tiny">Password</span>
+                <input class="w3-input w3-hover-border-black" type="password" id="userpsw" autocomplete="off"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Enter password" name="password" required>
+                <span class="w3-small w3-text-red w3-animate-opacity">
+                    <b>
+                        <%= wrongPswerror %>
+                    </b>
+                </span>
+                <br>
+                <input class="w3-check" type="checkbox" id="togglepsw">
+                <span>Show password</span>
+                <br><br>
+                <button type="submit" class="w3-button w3-card w3-block w3-black w3-round-xxlarge">Log
+                    in</button>
+            </form>
+
+            <script>
+                // Toggle password visibility 
+
+                document.getElementById("togglepsw").addEventListener("click", () => {
+                    toggleVisibility();
+                })
+
+                function toggleVisibility() {
+
+                    var x = document.getElementById("userpsw");
+
+                    if (x.type === "password") {
+                        x.type = "text";
+                    } else {
+                        x.type = "password";
+                    }
+
+                }
+                // Toggle password visibility
+
+            </script>
+
+        </div>
+    </div>

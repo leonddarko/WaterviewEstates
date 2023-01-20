@@ -1,0 +1,32 @@
+<div class="topnav">
+    <a href="/">
+        <img src="/assets/aukiss-gold-logo-t.png" alt="">
+    </a>
+    <div class="items-right">
+        <a class="w3-hide-small w3-hide-medium" href="/about">ABOUT</a>
+        <a class="w3-hide-small w3-hide-medium" href="/city">CITY</a>
+        <a class="w3-hide-small w3-hide-medium" href="/site">SITE</a>
+        <a class="w3-hide-small w3-hide-medium" href="/homes">HOMES</a>
+        <a class="w3-hide-small w3-hide-medium" href="#">PARTNERS</a>
+        <a class="w3-hide-small w3-hide-medium" href=" #" style="padding: 0;">
+            <button class="w3-button w3-wide w3-card">
+                MORE INFO
+            </button>
+        </a>
+        <a class="w3-hide-large" href="#" id="bars">
+            <i class="material-icons w3-xlarge">&#xe5d2;</i>
+        </a>
+    </div>
+    <script>
+        document.getElementById("bars").addEventListener("click", () => {
+            // document.getElementById("mySidenav").style.display = "block";
+            var x = document.getElementById("mySidenav");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        });
+        
+    </script>
+</div>
